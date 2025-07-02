@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { User } from "../models/User";
 import jwt from "jsonwebtoken";
 
-export const signUp = async (req: Request, res: Response) => {
+export const signUp = async (req: any, res: any) => {
   const { name, email, password } = req.body;
 
   try {
@@ -28,7 +28,7 @@ export const signUp = async (req: Request, res: Response) => {
   }
 };
 
-export const signIn = async (req: Request, res: Response) => {
+export const signIn = async (req: any, res: any) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
