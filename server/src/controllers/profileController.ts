@@ -6,7 +6,7 @@ export const getAllUsers = async (_req: any, res: any) => {
 };
 
 export const updateUser = async (req: any, res: any) => {
-  const { name, email } = req.body;
+  const { name, email, avatar } = req.body;
 
   if (req.user.id !== req.params.id) {
     return res.status(403).json({ message: "Acesso negado." });
@@ -14,7 +14,7 @@ export const updateUser = async (req: any, res: any) => {
 
   const user = await User.findByIdAndUpdate(
     req.params.id,
-    { name, email },
+    { name, email, avatar },
     { new: true }
   ).select("-password");
 
