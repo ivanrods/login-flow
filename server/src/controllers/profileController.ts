@@ -5,14 +5,13 @@ export const getAllUsers = async (_req: any, res: any) => {
   res.json(users);
 };
 
-export const getUserById = async (req: any, res: any) => {
-  const user = await User.findById(req.params.id).select("-password");
-  if (!user) return res.status(404).json({ message: "Usuário não encontrado" });
-  res.json(user);
-};
-
 export const updateUser = async (req: any, res: any) => {
   const { name, email } = req.body;
+
+  if (req.user.id !== req.params.id) {
+    return res.status(403).json({ message: "Acesso negado." });
+  }
+
   const user = await User.findByIdAndUpdate(
     req.params.id,
     { name, email },
@@ -25,6 +24,11 @@ export const updateUser = async (req: any, res: any) => {
 
 export const deleteUser = async (req: any, res: any) => {
   const user = await User.findByIdAndDelete(req.params.id);
+
+  if (req.user.id !== req.params.id) {
+    return res.status(403).json({ message: "Acesso negado." });
+  }
+
   if (!user) return res.status(404).json({ message: "Usuário não encontrado" });
   res.json({ message: "Usuário deletado com sucesso" });
 };
