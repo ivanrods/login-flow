@@ -12,11 +12,12 @@ export const updateUser = async (req: any, res: any) => {
     return res.status(403).json({ message: "Acesso negado." });
   }
 
-  const user = await User.findByIdAndUpdate(
-    req.params.id,
-    { name, email, avatar },
-    { new: true }
-  ).select("-password");
+  const updateData: any = { name, email };
+  if (avatar) updateData.avatar = avatar;
+
+  const user = await User.findByIdAndUpdate(req.params.id, updateData, {
+    new: true,
+  }).select("-password");
 
   if (!user) return res.status(404).json({ message: "Usuário não encontrado" });
   res.json({ message: "Usuário atualizado com sucesso", user });

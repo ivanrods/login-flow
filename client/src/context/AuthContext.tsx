@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { api } from "../services/api";
 import { useNavigate } from "react-router-dom";
+import { api } from "../services/api";
 
 interface User {
   _id: string;
@@ -11,6 +11,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
 }
@@ -51,7 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, setUser, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
