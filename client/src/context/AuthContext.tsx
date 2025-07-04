@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const token = localStorage.getItem("token");
       if (token) {
         try {
-          const { data } = await api.get("/auth/profile");
+          const { data } = await api.get("/api/profile");
           setUser(data);
         } catch {
           signOut();
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signIn = async (email: string, password: string) => {
     const { data } = await api.post("/auth/login", { email, password });
     localStorage.setItem("token", data.token);
-    const profile = await api.get("/auth/profile");
+    const profile = await api.get("/private/profile");
     setUser(profile.data);
     navigate("/profile");
   };
