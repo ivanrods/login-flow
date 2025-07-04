@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
+import { Link } from "react-router-dom";
 
 export const Register = () => {
   const [name, setName] = useState("");
@@ -48,6 +49,7 @@ export const Register = () => {
         <br />
         <button type="submit">Cadastrar</button>
       </form>
+      <Link to='/login'>Fazer login</Link>
       {error && <p>{error}</p>}
     </div>
   );

@@ -1,6 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { api } from "../services/api";
+import "../styles/profile.css";
 
 export const Profile = () => {
   const { user, signOut, setUser } = useAuth();
@@ -28,7 +29,6 @@ export const Profile = () => {
       setUser(res.data.user);
       setMessage("Perfil atualizado com sucesso!");
     } catch (err: any) {
-      console.log(err);
       setError("Erro ao atualizar perfil.");
     }
   };
@@ -47,7 +47,7 @@ export const Profile = () => {
   if (!user) return <p>Carregando...</p>;
 
   return (
-    <div style={{ maxWidth: 400, margin: "0 auto" }}>
+    <div>
       <h1>Perfil</h1>
 
       <img
@@ -57,50 +57,35 @@ export const Profile = () => {
         height={100}
         style={{ borderRadius: "50%", marginBottom: 16 }}
       />
-
+      <br />
       <input
         type="text"
         placeholder="Avatar URL"
         value={avatar}
         onChange={(e) => setAvatar(e.target.value)}
-        style={{ width: "100%", marginBottom: 8 }}
       />
-
+      <br />
       <input
         type="text"
         placeholder="Nome"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        style={{ width: "100%", marginBottom: 8 }}
       />
-
+      <br />
       <input
         type="email"
         placeholder="E-mail"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        style={{ width: "100%", marginBottom: 8 }}
       />
+      <br />
+      <button onClick={handleUpdate}>Salvar alterações</button>
 
-      <button onClick={handleUpdate} style={{ width: "100%", marginBottom: 8 }}>
-        Salvar alterações
-      </button>
+      <button onClick={handleDelete}>Excluir conta</button>
+      <button onClick={signOut}>Sair</button>
 
-      <button
-        onClick={handleDelete}
-        style={{
-          width: "100%",
-          background: "#e74c3c",
-          color: "white",
-          border: "none",
-          padding: "8px",
-        }}
-      >
-        Excluir conta
-      </button>
-
-      {message && <p style={{ color: "green" }}>{message}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {message && <p>{message}</p>}
+      {error && <p>{error}</p>}
     </div>
   );
 };

@@ -20,19 +20,18 @@ const AuthContext = createContext({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadUser = async () => {
+    const loadUser = () => {
       const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          const { data } = await api.get("/api/profile");
-          setUser(data);
-        } catch {
-          signOut();
-        }
+      const userData = localStorage.getItem("user");
+
+      if (token && userData) {
+        setUser(JSON.parse(userData));
       }
+      setLoading(false); // <- aqui termina o carregamento
     };
     loadUser();
   }, []);
@@ -40,22 +39,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signIn = async (email: string, password: string) => {
     const { data } = await api.post("/auth/login", { email, password });
     localStorage.setItem("token", data.token);
+
     const profile = await api.get("/private/profile");
     setUser(profile.data);
+    localStorage.setItem("user", JSON.stringify(profile.data));
+
     navigate("/profile");
   };
 
   const signOut = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
     navigate("/login");
   };
 
   return (
     <AuthContext.Provider value={{ user, setUser, signIn, signOut }}>
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 };
+
 
 export const useAuth = () => useContext(AuthContext);

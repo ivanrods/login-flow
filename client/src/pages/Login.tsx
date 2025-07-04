@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -36,6 +37,7 @@ export const Login = () => {
         <br />
         <button type="submit">Entrar</button>
       </form>
+      <Link to='/register'>Registrar</Link>
       {error && <p>{error}</p>}
     </div>
   );
