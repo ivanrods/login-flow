@@ -60,17 +60,6 @@ p {
   font-size: 1.4rem;
 }
 
-input {
-  width: 100%;
-  height: 4rem;
-  border: none;
-  background-color: var(--color-gray-light);
-  padding: 1rem;
-  border-radius: 1rem;
-  margin-bottom: 1rem;
-  outline: none;
-}
-
 aside {
   display: flex;
   flex-direction: column;

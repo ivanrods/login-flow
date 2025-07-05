@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import Input from "../components/input";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -21,20 +22,22 @@ export const Login = () => {
     <section>
       <form onSubmit={handleSubmit}>
         <h1>Sign In</h1>
-        <input
+        <Input
           type="email"
+          label="Email"
           placeholder="E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-       
-        <input
+
+        <Input
           type="password"
+          label="Senha"
           placeholder="Senha"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-      
+
         <button type="submit">Entrar</button>
       </form>
       <aside className="up">

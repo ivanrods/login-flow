@@ -1,7 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { api } from "../services/api";
-
+import Input from "../components/input";
 
 export const Profile = () => {
   const { user, signOut, setUser } = useAuth();
@@ -55,27 +55,30 @@ export const Profile = () => {
         height={100}
         style={{ borderRadius: "50%", marginBottom: 16 }}
       />
-
-      <input
+      <Input
         type="text"
+        label="Avatar URL"
         placeholder="Avatar URL"
         value={avatar}
         onChange={(e) => setAvatar(e.target.value)}
       />
 
-      <input
+      <Input
         type="text"
+        label="Nome"
         placeholder="Nome"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
 
-      <input
+      <Input
         type="email"
+        label="E-mail"
         placeholder="E-mail"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
+
       <div className="actions">
         <button onClick={handleUpdate}>Salvar</button>
         <button onClick={handleDelete}>Excluir conta</button>

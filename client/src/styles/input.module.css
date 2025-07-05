@@ -1,0 +1,25 @@
+fieldset {
+  border-radius: 0.5rem;
+  width: 100%;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+ 
+  transition: border-color 0.1s ease;
+}
+legend{
+    color: #272727;
+    padding: 0 4px;
+}
+fieldset:focus-within {
+     border: 2px solid #7e7e7e;
+  border-color: var(--color-base-blue);
+}
+
+
+input {
+  border: none;
+  width: 100%;
+  padding: 0.8rem 0;
+  margin-bottom: 1rem;
+  outline: none;
+}
