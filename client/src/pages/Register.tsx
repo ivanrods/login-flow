@@ -23,34 +23,40 @@ export const Register = () => {
   };
 
   return (
-    <div>
-      <h1>Cadastro</h1>
+    <section>
+      <aside className="in">
+        <h2>Hello, Friend!</h2>
+        <p>Register with personal detalis use all of sete fearures</p>
+
+        <Link to="/login">Fazer login</Link>
+      </aside>
       <form onSubmit={handleSubmit}>
+        <h1>Create Account</h1>
         <input
           type="text"
           placeholder="Nome"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <br />
+
         <input
           type="email"
           placeholder="E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <br />
+
         <input
           type="password"
           placeholder="Senha"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <br />
+
         <button type="submit">Cadastrar</button>
       </form>
-      <Link to='/login'>Fazer login</Link>
+
       {error && <p>{error}</p>}
-    </div>
+    </section>
   );
 };

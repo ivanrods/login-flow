@@ -1,7 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { api } from "../services/api";
-import "../styles/profile.css";
+
 
 export const Profile = () => {
   const { user, signOut, setUser } = useAuth();
@@ -47,9 +47,7 @@ export const Profile = () => {
   if (!user) return <p>Carregando...</p>;
 
   return (
-    <div>
-      <h1>Perfil</h1>
-
+    <div className="profile">
       <img
         src={avatar || "https://via.placeholder.com/100"}
         alt="Avatar"
@@ -57,32 +55,32 @@ export const Profile = () => {
         height={100}
         style={{ borderRadius: "50%", marginBottom: 16 }}
       />
-      <br />
+
       <input
         type="text"
         placeholder="Avatar URL"
         value={avatar}
         onChange={(e) => setAvatar(e.target.value)}
       />
-      <br />
+
       <input
         type="text"
         placeholder="Nome"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <br />
+
       <input
         type="email"
         placeholder="E-mail"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <br />
-      <button onClick={handleUpdate}>Salvar alterações</button>
-
-      <button onClick={handleDelete}>Excluir conta</button>
-      <button onClick={signOut}>Sair</button>
+      <div className="actions">
+        <button onClick={handleUpdate}>Salvar</button>
+        <button onClick={handleDelete}>Excluir conta</button>
+        <button onClick={signOut}>Sair</button>
+      </div>
 
       {message && <p>{message}</p>}
       {error && <p>{error}</p>}
