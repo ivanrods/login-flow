@@ -2,6 +2,7 @@ import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { api } from "../services/api";
 import Input from "../components/input";
+import styles from "../styles/profile.module.css";
 
 export const Profile = () => {
   const { user, signOut, setUser } = useAuth();
@@ -47,7 +48,7 @@ export const Profile = () => {
   if (!user) return <p>Carregando...</p>;
 
   return (
-    <div className="profile">
+    <div className={styles.profile}>
       <img
         src={avatar || "https://via.placeholder.com/100"}
         alt="Avatar"
@@ -79,7 +80,7 @@ export const Profile = () => {
         onChange={(e) => setEmail(e.target.value)}
       />
 
-      <div className="actions">
+      <div className={styles.actions}>
         <button onClick={handleUpdate}>Salvar</button>
         <button onClick={handleDelete}>Excluir conta</button>
         <button onClick={signOut}>Sair</button>

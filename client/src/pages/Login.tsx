@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import Input from "../components/input";
+import styles from "../styles/section.module.css";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,9 +20,11 @@ export const Login = () => {
     }
   };
   return (
-    <section>
-      <form onSubmit={handleSubmit}>
+    <section className={styles.section}>
+      
+      <form onSubmit={handleSubmit} className={styles.up_form}>
         <h1>Sign In</h1>
+         <span>use sua conta</span>
         <Input
           type="email"
           label="Email"
@@ -40,11 +43,11 @@ export const Login = () => {
 
         <button type="submit">Entrar</button>
       </form>
-      <aside className="up">
-        <h2>Welcome Back!</h2>
-        <p>To keep connected with us please login with your personal info</p>
+      <aside className={styles.up}>
+        <h2>Bem vindo de volta!</h2>
+        <p>Para continuar conectado, faça login com suas informações pessoais</p>
 
-        <Link to="/register">Registrar</Link>
+        <Link to="/register">Criar conta</Link>
       </aside>
 
       {error && <p>{error}</p>}

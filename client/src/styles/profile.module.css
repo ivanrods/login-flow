@@ -1,0 +1,33 @@
+.profile {
+  height: 100vh;
+  background-color: var(--color-base-whith);
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2rem;
+  padding: 2rem;
+}
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+@media (min-width: 700px) {
+  .profile {
+    width: min(85rem, 90%);
+    height: min(55rem, 70%);
+    background-color: var(--color-base-whith);
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-content: center;
+  }
+  .actions {
+    display: flex;
+    flex-direction: row;
+  }
+}

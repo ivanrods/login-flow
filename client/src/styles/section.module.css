@@ -1,0 +1,138 @@
+section {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  background-color: var(--color-base-whith);
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem;
+  gap: 1rem;
+}
+
+aside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 3rem;
+  background-color: var(--color-base-blue);
+  color: var(--color-base-whith);
+}
+
+.up {
+  border-radius: 10rem 10rem 0 0;
+  --delay: 0s;
+  animation: show-up-mobi 0.5s var(--delay) backwards;
+  z-index: 3;
+}
+.in {
+  border-radius: 0 0 10rem 10rem;
+  --delay: 0s;
+  animation: show-in-mobi 0.5s var(--delay) backwards;
+  z-index: 2;
+}
+
+.in_form {
+  --delay: 0s;
+  animation: show-up-mobi 0.5s var(--delay) backwards;
+  z-index: 0;
+}
+.up_form {
+  --delay: 0s;
+  animation: show-in-mobi 0.5s var(--delay) backwards;
+  z-index: 1;
+}
+
+a {
+  padding: 1rem 2rem;
+  border: 1px solid var(--color-base-whith);
+  background-color: var(--color-base-blue);
+  color: var(--color-base-whith);
+  font-size: 1.6rem;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+@keyframes show-up-mobi {
+  100% {
+    transform: translateY(0%);
+  }
+  0% {
+    transform: translateY(-100%);
+  }
+}
+@keyframes show-in-mobi {
+  100% {
+    transform: translateY(0%);
+  }
+  0% {
+    transform: translateY(100%);
+  }
+}
+
+@media (min-width: 700px) {
+  .app {
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    align-items: center;
+    background-color: #ebebeb;
+  }
+
+  section {
+    width: min(85rem, 90%);
+    height: min(55rem, 70%);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 100%;
+    border-radius: 3rem;
+    box-shadow: 0 0.8rem 0.5rem rgba(0, 0, 0, 0.1);
+  }
+  .up {
+    border-radius: 10rem 3rem 3rem 10rem;
+    --delay: 0s;
+    animation: show-up 0.5s var(--delay) backwards;
+    z-index: 3;
+  }
+  .in {
+    border-radius: 3rem 10rem 10rem 3rem;
+    --delay: 0s;
+    animation: show-in 0.5s var(--delay) backwards;
+    z-index: 2;
+  }
+
+  .up_form {
+    --delay: 0s;
+    animation: show-in 0.5s var(--delay) backwards;
+    z-index: 1;
+  }
+  .in_form {
+    --delay: 0s;
+    animation: show-up 0.5s var(--delay) backwards;
+    z-index: 0;
+  }
+
+  @keyframes show-up {
+    100% {
+      transform: translateX(0%);
+    }
+    0% {
+      transform: translateX(-100%);
+    }
+  }
+  @keyframes show-in {
+    100% {
+      transform: translateX(0%);
+    }
+    0% {
+      transform: translateX(100%);
+    }
+  }
+}

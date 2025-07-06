@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 import { Link } from "react-router-dom";
 import Input from "../components/input";
+import styles from "../styles/section.module.css";
 
 export const Register = () => {
   const [name, setName] = useState("");
@@ -24,15 +25,16 @@ export const Register = () => {
   };
 
   return (
-    <section>
-      <aside className="in">
-        <h2>Hello, Friend!</h2>
-        <p>Register with personal detalis use all of sete fearures</p>
+    <section className={styles.section}>
+      <aside className={styles.in}>
+        <h2>Olá amigo!</h2>
+        <p>Cadastre-se com dados pessoais para conectar</p>
 
         <Link to="/login">Fazer login</Link>
       </aside>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.in_form}>
         <h1>Create Account</h1>
+          <span>insira seus dados para registro</span>
         <Input
           type="text"
           label="Nome"

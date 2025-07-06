@@ -6,7 +6,7 @@
 :root {
   font-size: 62.5%;
   --color-base-whith: #ffffff;
-  --color-base-black: #070100;
+  --color-base-black: #251f1e;
   --color-gray-light: #eeeeee;
   --color-base-blue: #523ead;
   --color-base-dark: #09090b;
@@ -15,38 +15,6 @@ body,
 button,
 input {
   font-family: "Roboto", sans-serif;
-}
-
-section {
-  height: 100vh;
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  background-color: var(--color-base-whith);
-}
-.profile {
-  height: 100vh;
-  background-color: var(--color-base-whith);
-  gap: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 2rem;
-  padding: 2rem;
-}
-.actions {
-  display: flex;
-  gap: 1rem;
-  flex-direction: column;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 5rem;
-  gap: 1rem;
 }
 
 h1 {
@@ -59,30 +27,11 @@ h2 {
 p {
   font-size: 1.4rem;
 }
-
-aside {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2.5rem;
-  padding: 3rem;
-  background-color: var(--color-base-blue);
-  color: var(--color-base-whith);
+span{
+    font-size: 1.4rem;
+    color: var(--color-base-black);
 }
 
-.up {
-  border-radius: 10rem 10rem 0 0;
-  --delay: 0s;
-  animation: show-up-mobi 0.5s var(--delay) backwards;
-  z-index: 3;
-}
-.in {
-  border-radius: 0 0 10rem 10rem;
-  --delay: 0s;
-  animation: show-in-mobi 0.5s var(--delay) backwards;
-  z-index: 2;
-}
 
 button {
   padding: 1rem 5rem;
@@ -95,17 +44,7 @@ button {
   outline: none;
   cursor: pointer;
 }
-a {
-  padding: 1rem 2rem;
-  border: 1px solid var(--color-base-whith);
-  background-color: var(--color-base-blue);
-  color: var(--color-base-whith);
-  font-size: 1.6rem;
-  font-weight: bold;
-  outline: none;
-  cursor: pointer;
-  text-decoration: none;
-}
+
 button:hover {
   filter: brightness(1.22);
 }
@@ -114,22 +53,6 @@ button:active {
   transform: scale(0.97);
 }
 
-@keyframes show-up-mobi {
-  100% {
-    transform: translateY(0%);
-  }
-  0% {
-    transform: translateY(-100%);
-  }
-}
-@keyframes show-in-mobi {
-  100% {
-    transform: translateY(0%);
-  }
-  0% {
-    transform: translateY(100%);
-  }
-}
 
 @media (min-width: 700px) {
   .app {
@@ -140,57 +63,4 @@ button:active {
     background-color: #ebebeb;
   }
 
-  section {
-    width: min(85rem, 90%);
-    height: min(55rem, 70%);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 100%;
-    border-radius: 3rem;
-    box-shadow: 0 0.8rem 0.5rem rgba(0, 0, 0, 0.1);
-  }
-  .up {
-    border-radius: 10rem 3rem 3rem 10rem;
-    --delay: 0s;
-    animation: show-up 0.5s var(--delay) backwards;
-    z-index: 3;
-  }
-  .in {
-    border-radius: 3rem 10rem 10rem 3rem;
-    --delay: 0s;
-    animation: show-in 0.5s var(--delay) backwards;
-    z-index: 2;
-  }
-
-  .profile {
-    width: min(85rem, 90%);
-    height: min(55rem, 70%);
-    background-color: var(--color-base-whith);
-    gap: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    justify-content: center;
-  }
-  .actions {
-    display: flex;
-    flex-direction: row;
-  }
-
-  @keyframes show-up {
-    100% {
-      transform: translateX(0%);
-    }
-    0% {
-      transform: translateX(-100%);
-    }
-  }
-  @keyframes show-in {
-    100% {
-      transform: translateX(0%);
-    }
-    0% {
-      transform: translateX(100%);
-    }
-  }
 }
