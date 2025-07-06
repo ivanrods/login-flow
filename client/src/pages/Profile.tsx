@@ -1,36 +1,76 @@
 import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { api } from "../services/api";
+import { AxiosError } from "axios";
 import Input from "../components/input";
 import styles from "../styles/profile.module.css";
+import { useState, useEffect } from "react";
+
+const schema = yup.object().shape({
+  name: yup.string().required("Nome obrigatório"),
+  email: yup.string().email("E-mail inválido").required("E-mail obrigatório"),
+  avatar: yup.string().url("URL inválida").required("Avatar obrigatório"),
+});
+
+type FormData = {
+  name: string;
+  email: string;
+  avatar: string;
+};
 
 export const Profile = () => {
-  const { user, signOut, setUser } = useAuth();
-
-  const [name, setName] = useState(user?.name || "");
-  const [email, setEmail] = useState(user?.email || "");
-  const [avatar, setAvatar] = useState(user?.avatar || "");
-
+  const { user, setUser, signOut } = useAuth();
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const handleUpdate = async () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    watch,
+  } = useForm<FormData>({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      name: user?.name || "",
+      email: user?.email || "",
+      avatar: user?.avatar || "",
+    },
+  });
+
+  useEffect(() => {
+    if (user) {
+      reset({
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar || "",
+      });
+    }
+  }, [user, reset]);
+
+  const onSubmit = async (data: FormData) => {
+    setError("");
+    setMessage("");
     try {
-      setError("");
-      const token = localStorage.getItem("token");
-
-      const payload: any = { name, email };
-
-      const res = await api.put(`/users/${user?._id}`, payload, {
+      const res = await api.put(`/users/${user?._id}`, data, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
       setUser(res.data.user);
       setMessage("Perfil atualizado com sucesso!");
-    } catch (err: any) {
-      setError("Erro ao atualizar perfil.");
+      reset(res.data.user);
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+
+      if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Erro ao atualizar perfil.");
+      }
     }
   };
 
@@ -40,12 +80,20 @@ export const Profile = () => {
       await api.delete(`/users/${user?._id}`);
       alert("Conta excluída com sucesso.");
       signOut();
-    } catch (err: any) {
-      setError("Erro ao excluir conta.");
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+
+      if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Erro ao deletar perfil.");
+      }
     }
   };
 
   if (!user) return <p>Carregando...</p>;
+
+  const avatar = watch("avatar");
 
   return (
     <div className={styles.profile}>
@@ -56,38 +104,47 @@ export const Profile = () => {
         height={100}
         style={{ borderRadius: "50%", marginBottom: 16 }}
       />
-      <Input
-        type="text"
-        label="Avatar URL"
-        placeholder="Avatar URL"
-        value={avatar}
-        onChange={(e) => setAvatar(e.target.value)}
-      />
 
-      <Input
-        type="text"
-        label="Nome"
-        placeholder="Nome"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <Input
+          type="text"
+          label="Avatar URL"
+          placeholder="Avatar URL"
+          {...register("avatar")}
+        />
+        {errors.avatar && (
+          <p className={styles.error}>{errors.avatar.message}</p>
+        )}
 
-      <Input
-        type="email"
-        label="E-mail"
-        placeholder="E-mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <Input
+          type="text"
+          label="Nome"
+          placeholder="Nome"
+          {...register("name")}
+        />
+        {errors.name && <p className={styles.error}>{errors.name.message}</p>}
 
-      <div className={styles.actions}>
-        <button onClick={handleUpdate}>Salvar</button>
-        <button onClick={handleDelete}>Excluir conta</button>
-        <button onClick={signOut}>Sair</button>
-      </div>
+        <Input
+          type="email"
+          label="E-mail"
+          placeholder="E-mail"
+          {...register("email")}
+        />
+        {errors.email && <p className={styles.error}>{errors.email.message}</p>}
 
-      {message && <p>{message}</p>}
-      {error && <p>{error}</p>}
+        <div className={styles.actions}>
+          <button type="submit">Salvar</button>
+          <button type="button" onClick={handleDelete}>
+            Excluir conta
+          </button>
+          <button type="button" onClick={signOut}>
+            Sair
+          </button>
+        </div>
+      </form>
+
+      {message && <p className={styles.success}>{message}</p>}
+      {error && <p className={styles.error}>{error}</p>}
     </div>
   );
 };

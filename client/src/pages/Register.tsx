@@ -1,26 +1,53 @@
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
+import { AxiosError } from "axios";
 import { Link } from "react-router-dom";
 import Input from "../components/input";
 import styles from "../styles/section.module.css";
 
-export const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+const schema = yup.object().shape({
+  name: yup.string().required("Nome é obrigatório"),
+  email: yup.string().email("E-mail inválido").required("E-mail obrigatório"),
+  password: yup
+    .string()
+    .min(6, "Mínimo 6 caracteres")
+    .required("Senha obrigatória"),
+});
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+type FormData = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export const Register = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({ resolver: yupResolver(schema) });
+
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+
+  const onSubmit = async (data: FormData) => {
     setError("");
 
     try {
-      await api.post("/auth/signup", { name, email, password });
+      await api.post("/auth/signup", data);
       navigate("/login");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Erro no cadastro.");
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+
+      if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Erro ao criar conta.");
+      }
     }
   };
 
@@ -32,32 +59,31 @@ export const Register = () => {
 
         <Link to="/login">Fazer login</Link>
       </aside>
-      <form onSubmit={handleSubmit} className={styles.in_form}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.in_form}>
         <h1>Create Account</h1>
-          <span>insira seus dados para registro</span>
+        <span>insira seus dados para registro</span>
         <Input
           type="text"
           label="Nome"
           placeholder="Nome"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          {...register("name")}
         />
+
+        {errors.name && <p>{errors.name.message}</p>}
         <Input
           type="email"
           label="Email"
           placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          {...register("email")}
         />
-
+        {errors.email && <p>{errors.email.message}</p>}
         <Input
           type="password"
           label="Senaha"
           placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register("password")}
         />
-
+        {errors.password && <p>{errors.password.message}</p>}
         <button type="submit">Cadastrar</button>
       </form>
 

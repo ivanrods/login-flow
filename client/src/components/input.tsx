@@ -1,24 +1,19 @@
 import styles from "../styles/input.module.css";
-interface InputProps {
-  type?: string;
-  placeholder?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
-const Input = ({ type, placeholder, value, onChange }: InputProps) => {
+const Input = ({ type = "text", placeholder, label, ...rest  }: InputProps) => {
   return (
     <fieldset>
       <legend>
-        <label htmlFor={placeholder}>{placeholder}</label>
+        <label htmlFor={placeholder}>{label}</label>
       </legend>
       <input
         className={styles.input}
         type={type}
         placeholder={placeholder}
-        value={value}
-        onChange={onChange}
         id={placeholder}
+        {...rest}
       />
     </fieldset>
   );
