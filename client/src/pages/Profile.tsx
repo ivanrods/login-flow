@@ -6,7 +6,8 @@ import { api } from "../services/api";
 import { AxiosError } from "axios";
 import Input from "../components/input";
 import styles from "../styles/profile.module.css";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const schema = yup.object().shape({
   name: yup.string().required("Nome obrigatório"),
@@ -22,8 +23,6 @@ type FormData = {
 
 export const Profile = () => {
   const { user, setUser, signOut } = useAuth();
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
 
   const {
     register,
@@ -51,8 +50,6 @@ export const Profile = () => {
   }, [user, reset]);
 
   const onSubmit = async (data: FormData) => {
-    setError("");
-    setMessage("");
     try {
       const res = await api.put(`/users/${user?._id}`, data, {
         headers: {
@@ -61,15 +58,15 @@ export const Profile = () => {
       });
 
       setUser(res.data.user);
-      setMessage("Perfil atualizado com sucesso!");
+      toast.success("Perfil atualizado com sucesso!");
       reset(res.data.user);
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
 
       if (error.response?.data?.message) {
-        setError(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setError("Erro ao atualizar perfil.");
+        toast.error("Erro ao atualizar perfil.");
       }
     }
   };
@@ -78,15 +75,15 @@ export const Profile = () => {
     if (!confirm("Tem certeza que deseja excluir sua conta?")) return;
     try {
       await api.delete(`/users/${user?._id}`);
-      alert("Conta excluída com sucesso.");
+      toast.success("Conta excluída com sucesso.");
       signOut();
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
 
       if (error.response?.data?.message) {
-        setError(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setError("Erro ao deletar perfil.");
+        toast.error("Erro ao deletar perfil.");
       }
     }
   };
@@ -113,7 +110,7 @@ export const Profile = () => {
           {...register("avatar")}
         />
         {errors.avatar && (
-          <p className={styles.error}>{errors.avatar.message}</p>
+          <small className={styles.error}>{errors.avatar.message}</small>
         )}
 
         <Input
@@ -122,7 +119,9 @@ export const Profile = () => {
           placeholder="Nome"
           {...register("name")}
         />
-        {errors.name && <p className={styles.error}>{errors.name.message}</p>}
+        {errors.name && (
+          <small className={styles.error}>{errors.name.message}</small>
+        )}
 
         <Input
           type="email"
@@ -130,7 +129,9 @@ export const Profile = () => {
           placeholder="E-mail"
           {...register("email")}
         />
-        {errors.email && <p className={styles.error}>{errors.email.message}</p>}
+        {errors.email && (
+          <small className={styles.error}>{errors.email.message}</small>
+        )}
 
         <div className={styles.actions}>
           <button type="submit">Salvar</button>
@@ -142,9 +143,6 @@ export const Profile = () => {
           </button>
         </div>
       </form>
-
-      {message && <p className={styles.success}>{message}</p>}
-      {error && <p className={styles.error}>{error}</p>}
     </div>
   );
 };

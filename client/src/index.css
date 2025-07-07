@@ -27,6 +27,10 @@ h2 {
 p {
   font-size: 1.4rem;
 }
+small{
+  font-size: 1.2rem;
+  color: #ff5a5a;
+}
 span{
     font-size: 1.4rem;
     color: var(--color-base-black);

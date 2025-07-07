@@ -14,6 +14,7 @@ function App() {
         <Route path="/" element={<Private />} />
         <Route path="/profile" element={<Private />} />
       </Routes>
+      
     </div>
   );
 }

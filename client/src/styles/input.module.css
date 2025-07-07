@@ -3,7 +3,7 @@ fieldset {
   width: 100%;
   padding: 0.6rem 1rem 0.6rem 1rem;
   font-size: 1.2rem;
-
+  box-sizing: border-box;
   transition: border-color 0.1s ease;
 }
 legend {

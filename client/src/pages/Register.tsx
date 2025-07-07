@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 import { AxiosError } from "axios";
+import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import Input from "../components/input";
 import styles from "../styles/section.module.css";
@@ -32,21 +32,21 @@ export const Register = () => {
   } = useForm<FormData>({ resolver: yupResolver(schema) });
 
   const navigate = useNavigate();
-  const [error, setError] = useState("");
 
   const onSubmit = async (data: FormData) => {
-    setError("");
+
 
     try {
       await api.post("/auth/signup", data);
       navigate("/login");
+      toast.success('Perfil criado com sucesso')
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
 
       if (error.response?.data?.message) {
-        setError(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setError("Erro ao criar conta.");
+        toast.error("Erro ao criar conta.");
       }
     }
   };
@@ -69,25 +69,23 @@ export const Register = () => {
           {...register("name")}
         />
 
-        {errors.name && <p>{errors.name.message}</p>}
+        {errors.name && <small>{errors.name.message}</small>}
         <Input
           type="email"
           label="Email"
           placeholder="E-mail"
           {...register("email")}
         />
-        {errors.email && <p>{errors.email.message}</p>}
+        {errors.email && <small>{errors.email.message}</small>}
         <Input
           type="password"
           label="Senaha"
           placeholder="Senha"
           {...register("password")}
         />
-        {errors.password && <p>{errors.password.message}</p>}
+        {errors.password && <small>{errors.password.message}</small>}
         <button type="submit">Cadastrar</button>
       </form>
-
-      {error && <p>{error}</p>}
     </section>
   );
 };

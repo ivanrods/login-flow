@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useState } from "react";
 import { AxiosError } from "axios";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import Input from "../components/input";
 import styles from "../styles/section.module.css";
+import { toast } from "react-toastify";
 
 const schema = yup.object().shape({
   email: yup.string().email("E-mail inválido").required("E-mail obrigatório"),
@@ -17,7 +17,6 @@ const schema = yup.object().shape({
 });
 
 export const Login = () => {
-  const [error, setError] = useState("");
   const { signIn } = useAuth();
 
   const {
@@ -27,16 +26,16 @@ export const Login = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = async (data: { email: string; password: string }) => {
-    setError("");
+   
     try {
       await signIn(data.email, data.password);
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
 
       if (error.response?.data?.message) {
-        setError(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setError("Erro ao atualizar perfil.");
+        toast.error("Erro ao atualizar perfil.");
       }
     }
   };
@@ -51,14 +50,14 @@ export const Login = () => {
           placeholder="E-mail"
           {...register("email")}
         />
-        {errors.email && <p>{errors.email.message}</p>}
+        {errors.email && <small>{errors.email.message}</small>}
         <Input
           type="password"
           label="Senha"
           placeholder="Senha"
           {...register("password")}
         />
-        {errors.password && <p>{errors.password.message}</p>}
+        {errors.password && <small>{errors.password.message}</small>}
 
         <button type="submit">Entrar</button>
       </form>
@@ -70,8 +69,6 @@ export const Login = () => {
 
         <Link to="/register">Criar conta</Link>
       </aside>
-
-      {error && <p>{error}</p>}
     </section>
   );
 };
