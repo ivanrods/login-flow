@@ -35,7 +35,7 @@ export const Login = () => {
       if (error.response?.data?.message) {
         toast.error(error.response.data.message);
       } else {
-        toast.error("Erro ao atualizar perfil.");
+        toast.error("Erro ao entrar.");
       }
     }
   };

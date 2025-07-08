@@ -37,10 +37,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { data } = await api.post("/auth/login", { email, password });
+    const { data } = await api.post("/api/auth/login", { email, password });
     localStorage.setItem("token", data.token);
 
-    const profile = await api.get("/private/profile");
+    const profile = await api.get("/api/private/profile");
     setUser(profile.data);
     localStorage.setItem("user", JSON.stringify(profile.data));
 

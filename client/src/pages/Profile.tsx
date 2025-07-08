@@ -51,7 +51,7 @@ export const Profile = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await api.put(`/users/${user?._id}`, data, {
+      const res = await api.put(`/api/users/${user?._id}`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -74,7 +74,7 @@ export const Profile = () => {
   const handleDelete = async () => {
     if (!confirm("Tem certeza que deseja excluir sua conta?")) return;
     try {
-      await api.delete(`/users/${user?._id}`);
+      await api.delete(`/api/users/${user?._id}`);
       toast.success("Conta excluída com sucesso.");
       signOut();
     } catch (err) {

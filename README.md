@@ -6,7 +6,7 @@ Aplicação full stack com autenticação de usuários utilizando React, Node.js
 
 ## 🚀 Demonstração
 
-> [![Ver Demo](https://img.shields.io/badge/Demo-Ao%20vivo-blue?style=for-the-badge&logo=vercel)](https://login-flow.vercel.app/)  
+> [![Ver Demo](https://img.shields.io/badge/Demo-Ao%20vivo-blue?style=for-the-badge&logo=vercel)](https://login-flow-web.vercel.app/)  
 
 ---
 

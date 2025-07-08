@@ -37,7 +37,7 @@ export const Register = () => {
 
 
     try {
-      await api.post("/auth/signup", data);
+      await api.post("/api/auth/signup", data);
       navigate("/login");
       toast.success('Perfil criado com sucesso')
     } catch (err) {
